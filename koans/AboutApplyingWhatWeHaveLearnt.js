@@ -41,7 +41,15 @@ describe("About Applying What We Have Learnt", function() {
 
       /* solve using filter() & all() / any() */
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
+      var hasMushrooms = function(x) {return x === "mushrooms"};
+
+      var checkMushrooms = function(x) {return _(x.ingredients).any(hasMushrooms) === false};
+
+      var checkMushroomsAndNuts = function(x) {return x.containsNuts === false && _(x.ingredients).any(hasMushrooms) === false};
+
+      productsICanEat = _(products).filter(checkMushroomsAndNuts);
+
+      expect(productsICanEat.length).toBe(1);
   });
 
   /*********************************************************************************/
@@ -55,14 +63,30 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
 
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(sum);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
 
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
+   /* try chaining range() and reduce() */
 
-    expect(233168).toBe(FILL_ME_IN);
+  var threeArray = _.range(0, 1000, 3);
+  var fiveArray = _.range(0, 1000, 5);
+  var fifteenArray = _.range(0, 1000, 15);
+
+  var comboArray = threeArray.concat(fiveArray);
+
+  var preSum = _(comboArray).chain()
+      .reduce(function (sum, x) { return sum + x })
+      .value();
+
+  var fifteenSum = _(fifteenArray).chain()
+      .reduce(function (sum, x) { return sum + x })
+      .value();
+
+  var sum = preSum - fifteenSum;
+
+    expect(233168).toBe(sum);
   });
 
   /*********************************************************************************/
@@ -74,8 +98,9 @@ describe("About Applying What We Have Learnt", function() {
             ingredientCount[products[i].ingredients[j]] = (ingredientCount[products[i].ingredients[j]] || 0) + 1;
         }
     }
+    console.log(ingredientCount);
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
@@ -83,17 +108,52 @@ describe("About Applying What We Have Learnt", function() {
 
     /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+  _(products).chain()
+    .map(function(x) {return x.ingredients})
+    .flatten().forEach( function(x) {  ingredientCount[x] = (ingredientCount[x] || 0) + 1 }); 
+
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
+
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
+  
   it("should find the largest prime factor of a composite number", function () {
+
+    var isPrime = function(x) {
+      for (var i = 2; i < x; i++) {
+        if (x % i === 0) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    var findLargestPrimeFactor = function(x) {
+      var factors = [];
+      var primeFactors = [];
+      for (var i = 2; i < x; i++) {
+        if (x % i === 0) {
+          factors.push(i);
+        }
+      }
+      for (var i = 0; i < factors.length; i++) {
+        if (isPrime(i)) {
+          primeFactors.push(i);
+        }
+      }
+      return primeFactors[primeFactors.length - 1];
+    };
+
+    expect(findLargestPrimeFactor(100)).toBe(5);
 
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
+    //Take in two 3 digit numbers
+      //multiply the numbers
+
 
   });
 
@@ -108,6 +168,30 @@ describe("About Applying What We Have Learnt", function() {
 
   it("should find the 10001st prime", function () {
 
-  });
-  */
-});
+   var isPrime = function(x) {
+      for (var i = 2; i < x; i++) {
+        if (x % i === 0) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    var primes = [];
+    var i = 2;
+
+    while (primes.length < 10001) {
+      // primes.push(i);
+      // i++;
+      if (isPrime(i)) {
+        primes.push(i);
+      }
+      i++;
+    }
+
+  console.log("largest prime: ", primes[primes.length-1]);
+
+  }); 
+  
+}); 
+

@@ -59,7 +59,7 @@ function Gonzo(age, hobby, trick) {
 }
 
 //no longer need to call the Muppet (base type) constructor
-Gonzo.prototype = Muppet.prototype.beget();
+Gonzo.prototype = Muppet.prototype.beget(); //what makes this better than the constructor?
 
 describe("About Crockford's inheritance improvement", function() {
   beforeEach(function(){
